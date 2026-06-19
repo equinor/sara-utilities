@@ -49,6 +49,24 @@ def upload_bytes_to_blob(
     blob_client.upload_blob(data, overwrite=True, content_settings=settings)
 
 
+def _account_from_connection_string(connection_string: str) -> str:
+    """Extract the AccountName field from an Azure Storage connection string."""
+    for part in connection_string.split(";"):
+        if part.startswith("AccountName="):
+            return part[len("AccountName=") :]
+    return ""
+
+
+def resolve_expected_account(storage_account: str, connection_string: str) -> str:
+    """Resolve which account name payload locations should be validated against.
+
+    Prefers an explicitly configured account name; otherwise derives the
+    account from the connection string so a single source of truth still
+    pins which Azure Storage account the analyzer will talk to.
+    """
+    return storage_account or _account_from_connection_string(connection_string)
+
+
 def validate_storage_account(
     storage_account: str, expected_storage_account: str
 ) -> None:

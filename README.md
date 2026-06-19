@@ -39,6 +39,10 @@ uv lock --upgrade
 
 ## Running tests
 
+The integration test in `tests/test_integration_copy_raw_to_visualized.py`
+spins up an [Azurite](https://github.com/Azure/Azurite) container via
+`testcontainers` and requires a running Docker daemon.
+
 ```bash
 uv run pytest
 ```

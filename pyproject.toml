@@ -23,6 +23,7 @@ dev = [
   "isort>=7.0.0",
   "mypy>=1.13",
   "pytest>=8.3",
+  "testcontainers[azurite]",
 ]
 
 [tool.setuptools_scm]
