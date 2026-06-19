@@ -28,6 +28,10 @@ dev = [
 [tool.setuptools_scm]
 # This section is empty but required for dynamic versioning.
 
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
 [tool.black]
 target-version = ["py314"]
 
