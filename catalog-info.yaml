@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sara-utilities
+  description: The SARA Utilities analyzer hosts small per-inspection utility operations so inspection records without an analyzer still get a visualization_available MQTT publication.
+  annotations:
+    github.com/project-slug: equinor/sara-utilities
+    github.com/team-slug: equinor/eq-robot-developer
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/eq-robot-developer
+  system: system:default/flotilla
+  dependsOn:
+    - component:sara
