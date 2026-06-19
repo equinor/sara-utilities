@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=64.0", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sara-utilities"
+requires-python = ">=3.14"
+dependencies = [
+  "azure-identity",
+  "azure-storage-blob",
+  "opentelemetry-api",
+  "opentelemetry-exporter-otlp-proto-http",
+  "opentelemetry-sdk",
+  "opentelemetry-semantic-conventions",
+  "pydantic",
+  "pydantic-settings",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+  "black>=26.3.1",
+  "isort>=7.0.0",
+  "mypy>=1.13",
+  "pytest>=8.3",
+]
+
+[tool.setuptools_scm]
+# This section is empty but required for dynamic versioning.
+
+[tool.black]
+target-version = ["py314"]
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+use_parentheses = true
+
+[tool.mypy]
+ignore_missing_imports = true
+no_warn_return_any = true
+warn_unused_ignores = false
+strict_optional = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+files = ["sara_utilities"]
