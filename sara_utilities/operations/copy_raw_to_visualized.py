@@ -9,6 +9,7 @@ from sara_utilities.config.settings import settings
 from sara_utilities.file_io.blob_io import (
     build_blob_service_client,
     download_blob_to_bytes,
+    resolve_expected_account,
     upload_bytes_to_blob,
     validate_locations,
 )
@@ -36,11 +37,19 @@ def handle(
         )
     input_location: BlobStorageLocation = input_locations[0]
 
+    expected_source: str = resolve_expected_account(
+        settings.SOURCE_STORAGE_ACCOUNT,
+        settings.SOURCE_STORAGE_CONNECTION_STRING,
+    )
+    expected_destination: str = resolve_expected_account(
+        settings.DESTINATION_STORAGE_ACCOUNT,
+        settings.DESTINATION_STORAGE_CONNECTION_STRING,
+    )
     validate_locations(
         input_location,
         output_location,
-        expected_source_account=settings.SOURCE_STORAGE_ACCOUNT,
-        expected_destination_account=settings.DESTINATION_STORAGE_ACCOUNT,
+        expected_source_account=expected_source,
+        expected_destination_account=expected_destination,
     )
 
     src_client: BlobServiceClient = build_blob_service_client(

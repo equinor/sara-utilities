@@ -6,6 +6,7 @@ import pytest
 from sara_utilities.file_io.blob_io import (
     build_blob_service_client,
     download_blob_to_bytes,
+    resolve_expected_account,
     upload_bytes_to_blob,
     validate_locations,
 )
@@ -93,3 +94,28 @@ def test_build_client_raises_when_neither_account_nor_connection_string_provided
         ValueError, match="Neither a storage account nor a connection string"
     ):
         build_blob_service_client(storage_account="", connection_string="")
+
+
+def test_resolve_expected_account_prefers_explicit_account_name() -> None:
+    resolved = resolve_expected_account(
+        storage_account="explicit-acct",
+        connection_string="DefaultEndpointsProtocol=https;AccountName=parsed-acct;",
+    )
+
+    assert resolved == "explicit-acct"
+
+
+def test_resolve_expected_account_falls_back_to_connection_string() -> None:
+    resolved = resolve_expected_account(
+        storage_account="",
+        connection_string=(
+            "DefaultEndpointsProtocol=https;AccountName=conn-acct;"
+            "AccountKey=ZmFrZQ==;EndpointSuffix=core.windows.net"
+        ),
+    )
+
+    assert resolved == "conn-acct"
+
+
+def test_resolve_expected_account_returns_empty_when_neither_configured() -> None:
+    assert resolve_expected_account(storage_account="", connection_string="") == ""
