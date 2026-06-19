@@ -1,7 +1,11 @@
 import argparse
+import json
 import logging
 import sys
+from pathlib import Path
 
+from sara_utilities import operations  # noqa: F401  -- registers handlers
+from sara_utilities import main_workflow
 from sara_utilities.cli_inputs import (
     parse_extras,
     parse_input_blob_storage_locations,
@@ -42,7 +46,11 @@ def main() -> None:
         f"Parsed operation={extras.operation} "
         f"inputs={input_locations} output={output_location}"
     )
-    raise NotImplementedError("Operation dispatch not yet implemented")
+
+    main_workflow.run(input_locations, output_location, extras)
+
+    result = {"outputBlobStorageLocation": output_location.model_dump(by_alias=True)}
+    Path(args.result_output_file).write_text(json.dumps(result))
 
 
 if __name__ == "__main__":
