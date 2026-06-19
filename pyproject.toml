@@ -49,4 +49,4 @@ strict_optional = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
-files = ["sara_utilities"]
+files = ["sara_utilities", "main.py"]
