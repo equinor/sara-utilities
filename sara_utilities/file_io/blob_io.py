@@ -11,13 +11,13 @@ logger = logging.getLogger(__name__)
 def build_blob_service_client(
     storage_account: str, connection_string: str
 ) -> BlobServiceClient:
+    if connection_string:
+        return BlobServiceClient.from_connection_string(connection_string)
     if storage_account:
         return BlobServiceClient(
             account_url=f"https://{storage_account}.blob.core.windows.net",
             credential=DefaultAzureCredential(),
         )
-    if connection_string:
-        return BlobServiceClient.from_connection_string(connection_string)
     raise ValueError(
         "Neither a storage account nor a connection string was configured."
     )
