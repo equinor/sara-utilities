@@ -1,10 +1,36 @@
 version: 2
 updates:
+  # Python dependencies (pyproject.toml + uv.lock).
+  # Replaces the compile_python_requirements_and_create_pr workflow.
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      # Bundle patch + minor bumps into a single weekly PR. Cooldown (native
+      # 3-day default) prevents just-released versions from being included.
+      python-patch-minor:
+        patterns: ["*"]
+        update-types: ["patch", "minor"]
+      # Major bumps land as separate PRs so they get explicit review.
+      python-major:
+        patterns: ["*"]
+        update-types: ["major"]
+
+  # Docker base images.
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: weekly
+      day: monday
+    groups:
+      docker-images:
+        patterns: ["*"]
     ignore:
+      # Python major bumps to the base image often require code changes
+      # (build system, wheels). Handle those manually.
       - dependency-name: python
         update-types:
           - version-update:semver-major
