@@ -1,9 +1,10 @@
 version: 2
 updates:
   # Python dependencies (pyproject.toml + uv.lock).
-  # Replaces the compile_python_requirements_and_create_pr workflow.
   - package-ecosystem: uv
     directory: /
+    allow:
+      - dependency-type: all
     schedule:
       interval: weekly
       day: monday
@@ -14,7 +15,7 @@ updates:
       python-patch-minor:
         patterns: ["*"]
         update-types: ["patch", "minor"]
-      # Major bumps land as separate PRs so they get explicit review.
+      # Bundle major bumps into a separate group for explicit review.
       python-major:
         patterns: ["*"]
         update-types: ["major"]
