@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.14"
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -1014,7 +1014,7 @@ dev = [
 requires-dist = [
     { name = "azure-identity" },
     { name = "azure-storage-blob" },
-    { name = "black", marker = "extra == 'dev'", specifier = ">=26.3.1" },
+    { name = "black", marker = "extra == 'dev'", specifier = ">=26.10.1" },
     { name = "isort", marker = "extra == 'dev'", specifier = ">=7.0.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.13" },
     { name = "opentelemetry-api" },
