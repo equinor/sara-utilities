@@ -10,11 +10,17 @@ updates:
       day: monday
     open-pull-requests-limit: 5
     groups:
+      # Keep build-system requirements separate because they have no uv.lock
+      # entries and can invalidate a group that also contains lockfile updates.
+      python-build-tools:
+        patterns: ["setuptools", "setuptools-scm"]
+        applies-to: version-updates
       # Bundle all Python version updates into a single weekly PR. Cooldown
       # (native 3-day default) still prevents just-released versions from being
       # included.
       python-dependencies:
         patterns: ["*"]
+        exclude-patterns: ["setuptools", "setuptools-scm"]
         applies-to: version-updates
 
   # Docker base images.
